@@ -4,6 +4,7 @@
     box-sizing: border-box;
     background: url("./../../img//background.jpg") 0 0 no-repeat;
     background-size: cover;
+    overflow-y: hidden;
 }
 
 .page {
@@ -14,7 +15,7 @@
     transform: translate(-50%, -50%);
     text-align: center;
     background: #034381;
-    padding: 40px 40px;
+    padding: 40px;
     border: 8px solid #44b4cc;
     box-sizing: border-box;
     box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.5);
@@ -22,6 +23,7 @@
 
 .pageMedia {
     width: 90%;
+    padding: 20px;
 }
 
 .heading {
@@ -47,7 +49,7 @@
 }
 
 .inputBlockMedia {
-    width: 95%;
+    width: 85%;
 }
 
 .input {
@@ -55,7 +57,11 @@
     font-size: 16px;
     outline: none;
     background: #034381;
+    -webkit-appearance: none;
+    -webkit-border: none;
     border: none;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
     border-bottom: 2px solid #44b4cc;
     box-sizing: border-box;
     width: 100%;
@@ -92,6 +98,9 @@
 
 .buttons {
     margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .btn {
@@ -100,10 +109,9 @@
     display: inline-block;
     width: 40%;
     border: 3px solid #44b4cc;
-    cursor: pointer;
     background: #034381;
     color: #fff;
-    outline: none;  
+    text-decoration: none; 
     font-size: 18px;
     font-weight: bold;
     margin-right: 10px;
@@ -127,7 +135,7 @@
 .message {
     position: absolute; 
     top: 50px; 
-    right:50px; 
+    right: 50px; 
     background: #034381; 
     padding: 0 20px; 
     border-radius: 5px; 
@@ -159,6 +167,7 @@
 }
 
 .loading {
+    display: inline-block;
     width: 30px;
     height: 30px;
     margin-right: 10px;
@@ -173,4 +182,12 @@
     margin-right: 0;
     background: #000;
     animation: loading2 .5s infinite;
+}
+
+.warn {
+    color: #ccc;
+    opacity: .5;
+    float: left;
+    margin-top: 5px;
+    font-size: 14px;
 }

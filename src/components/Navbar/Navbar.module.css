@@ -5,6 +5,7 @@
     width: 60px;
     height: 100vh;
     transition: all .3s;
+    overflow-y: hidden;
 }
 
 .flexBlock {
@@ -109,6 +110,10 @@
     background: #034381;
     padding: 20px;
     text-align: center;
+}
+
+.messageMedia {
+    width: 70%;
 }
 
 .active {

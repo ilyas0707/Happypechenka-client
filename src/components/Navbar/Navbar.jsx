@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react"
 import Styles from "./Navbar.module.css"
+import { useMediaQuery } from 'react-responsive'
 import { NavLink, useHistory } from "react-router-dom"
 import { AuthContext } from "./../../context/AuthContext"
 import LogOut from "./../../img/logout.png"
@@ -13,7 +14,7 @@ export const Navbar = () => {
     const logoutHandler = event => {
         event.preventDefault()
         auth.logout()
-        history.push("/")
+        history.push("/")//
     }
 
     const showModal = event => {
@@ -49,6 +50,10 @@ export const Navbar = () => {
         </NavLink></li>
     })
 
+    const small = useMediaQuery(
+        { minDeviceWidth: 520 }
+    )
+
     return(
         <nav className={`${Styles.navbar} ${open ? Styles.open : ""}`}>
             <div className={Styles.flexBlock}>
@@ -69,11 +74,11 @@ export const Navbar = () => {
                     </li>
                 </ul>
             </div>
-            <div className={`${Styles.overlay} ${show ? Styles.active : !show}`}></div>
-            <div className={`${Styles.message} ${show ? Styles.active : !show}`}>
-                    <p className={Styles.text}>Are you sure, that you want to logout?</p>
-                    <a href="/" className={`${Styles.submit} ${Styles.left}`} onClick={logoutHandler}>Yes</a>
-                    <a href="/" className={`${Styles.submit} ${Styles.right}`} onClick={logoutCancel}>No</a>
+            <div className={`${Styles.overlay} ${show ? Styles.active : !show}`} onClick={logoutCancel}></div>
+            <div className={`${small ? Styles.message : `${Styles.message} ${Styles.messageMedia}`} ${Styles.message} ${show ? Styles.active : !show}`}>
+                <p className={Styles.text}>Are you sure, that you want to logout?</p>
+                <a href="/" className={`${Styles.submit} ${Styles.left}`} onClick={logoutHandler}>Yes</a>
+                <a href="/" className={`${Styles.submit} ${Styles.right}`} onClick={logoutCancel}>No</a>
             </div>
         </nav>
     )
