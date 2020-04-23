@@ -1,9 +1,10 @@
 import React from 'react'
+import Container from "./../../App.module.css"
 
 const CreatePage = () => {
     return(
-        <div>
-            <h2 style={{marginLeft: "20px"}}>Page1</h2>
+        <div className={Container.container}>
+            <h2>Page1</h2>
         </div>
     )
 }

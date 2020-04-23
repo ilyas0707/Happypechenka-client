@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, createRef } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Styles from "./AuthPage.module.css"
-import { ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { useMediaQuery } from 'react-responsive'
 import { useHttp } from "./../../hooks/http.hook"
@@ -9,18 +9,35 @@ import { AuthContext } from '../../context/AuthContext'
 import { useSuccess } from '../../hooks/success.hook'
 
 const AuthPage = () => {
+    toast.configure({
+        autoClose: 3000,
+        draggable: true
+    })
+
     const auth = useContext(AuthContext)
     const errorMessage = useError()
     const successMessage = useSuccess()
     const { loading, request, error, clearError } = useHttp()
     const [form, setForm] = useState({
-        email: "", password: ""
+        nickname: "",
+        email: "",
+        password: ""
     })
+    const [show, setShow] = useState(false)
 
     useEffect(() => {
         errorMessage(error)
         clearError()
     }, [error, errorMessage, clearError])
+
+    const showBlock = e => {
+        e.preventDefault()
+        if (show === false) {
+            setShow(true)
+        } else if (show === true) {
+            setShow(false)
+        }
+    }
 
     const changeHandler = event => {
         setForm({ ...form, [event.target.name]: event.target.value })
@@ -30,11 +47,11 @@ const AuthPage = () => {
         e.preventDefault()
         try {
             const data = await request("/api/auth/register", "POST", { ...form })
-            if (data.message === "User has created")
             successMessage(data.message)
+            setShow(false)
         } catch (e) {}
     }
-
+    
     const loginHandler = async (e) => {
         e.preventDefault()
         try {
@@ -51,52 +68,64 @@ const AuthPage = () => {
         { minDeviceWidth: 370 }
     )
 
-    const domNodeRef = createRef();
+    const elems = [
+        show ? { id: "nickname", name: "Nickname", text: "Must be unique" } : { id: "nickname", style: Styles.hidden },
+        { id: "email", name: "Email", text: "Ex: *****@happy.com" },
+        { id: "password", name: "Password", text: "Must be minimum 6 characters" }
+    ]
+
+    const item = elems.map(({id, name, text, style}) => {
+        return(
+            <div key={ id } className={small ? `${Styles.inputBlock} ${ style }` : `${Styles.inputBlock} ${Styles.inputBlockMedia} ${ style }`}>
+                <input type={id === "password" ? "password" : "text"} 
+                    className={Styles.input} 
+                    name={ id }
+                    autoComplete="off"
+                    placeholder={ name } 
+                    onChange={changeHandler} />
+                <label htmlFor={ id } className={Styles.label}>{ name }</label>
+                { show ? <b className={Styles.warn}>{ text }</b> : <span></span> }
+            </div>
+        )
+    })
 
     return(
         <div className={Styles.block}>
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                ref={domNodeRef} />
-            <div className={small ? Styles.page : `${Styles.page} ${Styles.pageMedia}`}>
-                <h1 className={xsmall ? Styles.heading : `${Styles.heading} ${Styles.headingMedia}`}>Authorization</h1>
+            <div className={small ? `${!show ? Styles.page : `${Styles.page} ${Styles.hidden}`}` : `${!show ? Styles.page : `${Styles.page} ${Styles.hidden}`} ${Styles.pageMedia}`}>
+                <h1 className={xsmall ? Styles.heading : `${Styles.heading} ${Styles.headingMedia}`}>Login</h1>
                 <form action="#" className={Styles.form}>
-                    <div className={small ? Styles.inputBlock : `${Styles.inputBlock} ${Styles.inputBlockMedia}`}>
-                        <input type="text" 
-                            className={Styles.input} 
-                            id="email" 
-                            name="email"
-                            autoComplete="off"
-                            placeholder="Email" 
-                            onChange={changeHandler} />
-                        <label htmlFor="email" className={Styles.label}>Email</label>
-                        <b className={Styles.warn}>Ex: *****@email.domain</b>
-                    </div>
-                    <div className={small ? Styles.inputBlock : `${Styles.inputBlock} ${Styles.inputBlockMedia}`}>
-                        <input type="password" 
-                            className={Styles.input} 
-                            id="password" 
-                            name="password" 
-                            autoComplete="current-password"
-                            placeholder="Password"
-                            onChange={changeHandler} />
-                        <label htmlFor="password" className={Styles.label}>Password</label>
-                        <b className={Styles.warn}>Must be minimum 6 characters</b>
-                    </div>
+                    { item }
                 </form>
+                <p className={xsmall ? Styles.signUp : `${Styles.signUp} ${Styles.signUpMedia}`}>{"Not yet signed up, so"}{" "}
+                    <a 
+                        href="/" 
+                        className={Styles.sign}
+                        onClick={showBlock}>Sign Up</a>
+                </p>
                 <div className={Styles.buttons}>
                     <a
                         href="/"
-                        type="submit"
                         className={loading ? Styles.loading : xsmall ? Styles.btn : `${Styles.btn} ${Styles.btnMedia}`}
                         onClick={loginHandler}>{loading ? "" : "Login"}</a>
+                </div>
+            </div>
+            <div className={small ? `${show ? Styles.page : `${Styles.page} ${Styles.hidden}`}` : `${show ? Styles.page : `${Styles.page} ${Styles.hidden}`} ${Styles.pageMedia}`}>
+                <h1 className={xsmall ? Styles.heading : `${Styles.heading} ${Styles.headingMedia}`}>Registration</h1>
+                <form action="#" className={Styles.form}>
+                    { item }
+                </form>
+                <div className={Styles.buttons}>
                     <a 
                         href="/"
-                        type="submit"
                         className={loading ? Styles.loading : xsmall ? Styles.btn : `${Styles.btn} ${Styles.btnMedia}`}
                         onClick={registerHandler}>{loading ? "" : "Sign Up"}</a>
                 </div>
+                <p className={xsmall ? `${Styles.signUp} ${Styles.mb}` : `${Styles.signUp} ${Styles.mb} ${Styles.signUpMedia}`}>{"OR return to"}{" "}
+                    <a 
+                        href="/" 
+                        className={Styles.sign}
+                        onClick={showBlock}>Login</a>
+                </p>
             </div>
         </div>
     )

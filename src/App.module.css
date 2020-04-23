@@ -1,8 +1,12 @@
 .container {
-    width: 80%;
-    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .app {
     display: flex;
+}
+
+.interface {
+    width: calc(100% - 60px);
 }

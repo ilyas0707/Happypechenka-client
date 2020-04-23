@@ -1,11 +1,9 @@
 .navbar {
     box-sizing: border-box;
     background: #034381;
-    padding: 15px 0;
-    width: 60px;
+    width: 75px;
     height: 100vh;
     transition: all .3s;
-    overflow-y: hidden;
 }
 
 .flexBlock {
@@ -24,8 +22,8 @@
 
 .ham {
     padding-top: 10px;
-    width: 60px;
-    height: 60px;
+    width: 75px;
+    height: 75px;
     box-sizing: border-box;
     background: #034381;
     text-decoration: none;
@@ -55,7 +53,7 @@
 .link {
     display: inline-block;
     width: 100%;
-    height: 60px;
+    height: 75px;
     font-weight: bold;
     background: #034381;
     color: #fff;
@@ -74,13 +72,6 @@
 
 .link:checked {
     background: #00e600;
-}
-
-.colored {
-    width: 60px;
-    position: absolute;
-    bottom: 15px;
-    left: 0;
 }
 
 .colored:hover {
@@ -153,10 +144,10 @@
 
 .line {
     display: block;
-    height: 4px;
+    height: 6px;
     width: 60%;
     background: #fff;
-    border-radius: 3px;
+    border-radius: 10px;
     transform: translateY(-100%);
     transition: all .3s;
 }
@@ -181,12 +172,12 @@
 
 .line:nth-child(1).open {
     width: 30%;
-    transform: translateY(100%) rotate(-40deg) translate(-10px, -4px);
+    transform: translateY(100%) rotate(-40deg) translate(-12px, -6px);
 }
 
 .line:nth-child(3).open {
     width: 30%;
-    transform: translateY(-300%) rotate(40deg) translate(-10px, 4px);
+    transform: translateY(-300%) rotate(40deg) translate(-12px, 6px);
 }
 
 .title {
